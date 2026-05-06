@@ -5,9 +5,18 @@ public class PlayerController : NetworkBehaviour
 {
     private NetworkCharacterController networkCharacterController;
 
+    [Networked]public Color playerColor{get; set;}
+    [Networked]public string playerName{get; set;}
     private void Awake()
     {
         networkCharacterController = GetComponent<NetworkCharacterController>();
+    }
+    private void Start()
+    {
+        playerColor = new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f));
+        playerName = $"Player{Random.Range(0,999999)}";
+        transform.GetChild(0).GetComponent<TextMesh>().text = playerName;
+        transform.GetComponent<MeshRenderer>().material.color = playerColor;
     }
     public override void FixedUpdateNetwork()
     {

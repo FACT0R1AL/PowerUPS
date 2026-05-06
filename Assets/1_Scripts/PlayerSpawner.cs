@@ -7,9 +7,6 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
-    public Transform PlayerNameText;
-    [Networked]public Color playerColor{get; set;}
-    [Networked]public string playerName{get; set;}
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -18,11 +15,6 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             _spawnedCharacters.Add(player, networkPlayerObject);
-            playerColor = new Color(UnityEngine.Random.Range(0f,1f),UnityEngine.Random.Range(0f,1f),UnityEngine.Random.Range(0f,1f));
-            playerName = $"Player{_spawnedCharacters.Count}";
-            PlayerNameText = networkPlayerObject.transform.GetChild(0);
-            PlayerNameText.GetComponent<TextMesh>().text = playerName;
-            networkPlayerObject.GetComponent<MeshRenderer>().material.color = playerColor;
 
         }
     }

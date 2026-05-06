@@ -13,6 +13,7 @@ public class NetworkInputHandler : MonoBehaviour, INetworkRunnerCallbacks
         if (Input.GetMouseButtonDown(0))
             mouse0 = true;
     }
+    [Networked]public Color playerColor{get; set;}
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
@@ -34,9 +35,7 @@ public class NetworkInputHandler : MonoBehaviour, INetworkRunnerCallbacks
 
         input.Set(data);
     }
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player){
-        Debug.Log("Player Joined");
-    }
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player){Debug.Log("Player Joined");}
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player){ }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
